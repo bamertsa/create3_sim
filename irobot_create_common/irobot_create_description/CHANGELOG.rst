@@ -2,14 +2,22 @@
 Changelog for package irobot_create_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1.0.3 (2022-05-05)
+2.1.0 (2023-05-15)
 ------------------
+* Multi robot support (`#207 <https://github.com/iRobotEducation/create3_sim/issues/207>`_)
+* Description fixes (`#200 <https://github.com/iRobotEducation/create3_sim/issues/200>`_)
+* Remapped odom topic (`#206 <https://github.com/iRobotEducation/create3_sim/issues/206>`_)
+* Contributors: Roni Kreinin, roni-kreinin
 
-1.0.2 (2022-05-05)
+2.0.0 (2023-01-19)
 ------------------
-* fix dependency tree of create3_sim packages (`#177 <https://github.com/iRobotEducation/create3_sim/issues/177>`_)
-* update changelog
-* Contributors: Alberto Soragna
+* Update to ROS 2 Humble (`#197 <https://github.com/iRobotEducation/create3_sim/issues/197>`_)
+  * Update message names to https://github.com/iRobotEducation/irobot_create_msgs/pull/10
+  * rename dock topic into dock_status
+  * comment ign_ros2_control dependency as it must be built from sources
+  Co-authored-by: Francisco Martín Rico <fmrico@gmail.com>
+* add missing dependency to irobot-create-common-bringup (`#186 <https://github.com/iRobotEducation/create3_sim/issues/186>`_)
+* Contributors: Alberto Soragna, Francisco Martín Rico
 
 1.0.1 (2022-04-12)
 ------------------

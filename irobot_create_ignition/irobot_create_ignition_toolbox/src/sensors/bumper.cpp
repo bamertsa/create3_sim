@@ -17,7 +17,7 @@ using irobot_create_ignition_toolbox::Bumper;
 Bumper::Bumper(std::shared_ptr<rclcpp::Node> & nh)
 : nh_(nh)
 {
-  bumper_sub_ = nh_->create_subscription<ros_ign_interfaces::msg::Contacts>(
+  bumper_sub_ = nh_->create_subscription<ros_gz_interfaces::msg::Contacts>(
     "bumper_contact",
     rclcpp::SensorDataQoS(),
     std::bind(&Bumper::bumper_callback, this, std::placeholders::_1));
@@ -31,7 +31,7 @@ Bumper::Bumper(std::shared_ptr<rclcpp::Node> & nh)
     "_internal/bumper/event", rclcpp::SensorDataQoS());
 }
 
-void Bumper::bumper_callback(const ros_ign_interfaces::msg::Contacts::SharedPtr bumper_contact_msg)
+void Bumper::bumper_callback(const ros_gz_interfaces::msg::Contacts::SharedPtr bumper_contact_msg)
 {
   tf2::Transform robot_pose(tf2::Transform::getIdentity());
   {
@@ -46,7 +46,7 @@ void Bumper::bumper_callback(const ros_ign_interfaces::msg::Contacts::SharedPtr 
   robot_m.getRPY(robot_r, robot_p, robot_y);
 
   // The bumper may be in contact with multiple objects simultaneously
-  for (const auto contact : bumper_contact_msg->contacts) {
+  for (const auto & contact : bumper_contact_msg->contacts) {
     uint16_t count = 0;
     geometry_msgs::msg::Vector3 average_position;
 

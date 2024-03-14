@@ -2,13 +2,12 @@
 Changelog for package irobot_create_ignition_sim
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1.0.3 (2022-05-05)
+2.1.0 (2023-05-15)
 ------------------
 
-1.0.2 (2022-05-05)
+2.0.0 (2023-01-19)
 ------------------
 * fix dependency tree of create3_sim packages (`#177 <https://github.com/iRobotEducation/create3_sim/issues/177>`_)
-* update changelog
 * Contributors: Alberto Soragna
 
 1.0.1 (2022-04-12)

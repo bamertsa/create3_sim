@@ -15,12 +15,12 @@ IrOpcode::IrOpcode(std::shared_ptr<rclcpp::Node> & nh)
 : nh_(nh)
 {
   emitter_pose_sub_ = nh_->create_subscription<nav_msgs::msg::Odometry>(
-    "/_internal/sim_ground_truth_ir_emitter_pose",
+    "_internal/sim_ground_truth_ir_emitter_pose",
     rclcpp::SensorDataQoS(),
     std::bind(&IrOpcode::emitter_pose_callback, this, std::placeholders::_1));
 
   receiver_pose_sub_ = nh_->create_subscription<nav_msgs::msg::Odometry>(
-    "/_internal/sim_ground_truth_ir_receiver_pose",
+    "_internal/sim_ground_truth_ir_receiver_pose",
     rclcpp::SensorDataQoS(),
     std::bind(&IrOpcode::receiver_pose_callback, this, std::placeholders::_1));
 
@@ -28,8 +28,8 @@ IrOpcode::IrOpcode(std::shared_ptr<rclcpp::Node> & nh)
     "ir_opcode",
     rclcpp::SensorDataQoS());
 
-  dock_pub_ = nh_->create_publisher<irobot_create_msgs::msg::Dock>(
-    "dock",
+  dock_pub_ = nh_->create_publisher<irobot_create_msgs::msg::DockStatus>(
+    "dock_status",
     rclcpp::SensorDataQoS());
 
   auto sensor_0_fov =
@@ -99,7 +99,7 @@ IrOpcode::IrOpcode(std::shared_ptr<rclcpp::Node> & nh)
         irobot_create_msgs::msg::IrOpcode::SENSOR_DIRECTIONAL_FRONT] !=
       irobot_create_msgs::msg::IrOpcode::CODE_IR_VIRTUAL_WALL;
 
-      auto dock_msg = irobot_create_msgs::msg::Dock();
+      auto dock_msg = irobot_create_msgs::msg::DockStatus();
       dock_msg.header.stamp = nh_->now();
       dock_msg.is_docked = is_docked_;
       dock_msg.dock_visible = is_dock_visible_;

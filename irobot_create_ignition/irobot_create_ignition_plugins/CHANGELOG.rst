@@ -2,16 +2,20 @@
 Changelog for package irobot_create_ignition_plugins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1.0.3 (2022-05-05)
+2.1.0 (2023-05-15)
 ------------------
-* make gazebo classic and ignition build time dependency if they are needed by CMakeLists.txt (`#179 <https://github.com/iRobotEducation/create3_sim/issues/179>`_)
-* Contributors: Alberto Soragna
+* Multi robot support (`#207 <https://github.com/iRobotEducation/create3_sim/issues/207>`_)
+* Contributors: Roni Kreinin
 
-1.0.2 (2022-05-05)
+2.0.0 (2023-01-19)
 ------------------
-* 1.0.1
-* update changelog
-* Contributors: Alberto Soragna
+* Update to ROS 2 Humble (`#197 <https://github.com/iRobotEducation/create3_sim/issues/197>`_)
+  * Update message names to https://github.com/iRobotEducation/irobot_create_msgs/pull/10
+  * rename dock topic into dock_status
+  * comment ign_ros2_control dependency as it must be built from sources
+  Co-authored-by: Francisco Martín Rico <fmrico@gmail.com>
+* add missing dependency to irobot-create-common-bringup (`#186 <https://github.com/iRobotEducation/create3_sim/issues/186>`_)
+* Contributors: Alberto Soragna, Francisco Martín Rico
 
 1.0.1 (2022-04-12)
 ------------------
