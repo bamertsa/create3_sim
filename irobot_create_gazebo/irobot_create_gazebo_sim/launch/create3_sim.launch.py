@@ -24,16 +24,29 @@ def generate_launch_description():
     # Paths
     create3_launch_file = PathJoinSubstitution(
         [irobot_create_gazebo_bringup_dir, 'launch', 'create3_gazebo.launch.py'])
+    
 
     # Includes
-    world_spawn = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([create3_launch_file])
-    )
+    world_spawn1 = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([create3_launch_file]),
+        launch_arguments=[
+            ('use_rviz', 'false'),
+            ('namespace', 'robot1'),
+            ('x', '2.0')])
+
+    world_spawn2 = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([create3_launch_file]),
+        launch_arguments=[
+            ('use_rviz', 'false'),
+            ('use_gazebo_gui', 'false'),
+            ('namespace', 'robot2'),
+            ('x', '-2.0')])
 
     # Define LaunchDescription variable
     ld = LaunchDescription(ARGUMENTS)
 
     #Actions
-    ld.add_action(world_spawn)	
+    ld.add_action(world_spawn1)	
+    ld.add_action(world_spawn2)
 
     return ld

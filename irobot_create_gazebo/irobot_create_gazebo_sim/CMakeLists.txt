@@ -20,7 +20,7 @@ endif()
 
 install(
   DIRECTORY
-    config
+    src
     launch
   DESTINATION
     share/${PROJECT_NAME}
