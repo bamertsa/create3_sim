@@ -17,6 +17,9 @@ class robotHandler(Node):
 
         #Action Clients
         self._rotate_angle_action_client = ActionClient(self, RotateAngle, str(namespace)+'/rotate_angle')
+        self._drive_distance_action_client = ActionClient(self, DriveDistance, str(namespace)+'/drive_distance')
+
+        self.sim_counter = 0
 
         self.get_logger().info(f'Action clients setup', once=True)
 
@@ -32,13 +35,24 @@ class robotHandler(Node):
 
         self.get_logger().info('Sending goal request...')
 
-        self._send_goal_future = self._rotate_angle_action_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
-
-        self.get_logger().info('Test1')
+        self._send_goal_future = self._rotate_angle_action_client.send_goal_async(goal_msg)
 
         self._send_goal_future.add_done_callback(self.goal_response_callback)
 
-        self.get_logger().info('Test2')
+    def send_drive_distance_goal(self, distance):
+
+        self.get_logger().info('Waiting for action server...')
+        self._rotate_angle_action_client.wait_for_server()
+
+        goal_msg = DriveDistance.Goal()
+        goal_msg.distance = distance
+        goal_msg.max_translation_speed = 0.5
+
+        self.get_logger().info('Sending goal request...')
+
+        self._send_goal_future = self._drive_distance_action_client.send_goal_async(goal_msg)
+
+        self._send_goal_future.add_done_callback(self.goal_response_callback)
 
     def goal_response_callback(self, future):
         goal_handle = future.result()
@@ -58,12 +72,16 @@ class robotHandler(Node):
         else:
             self.get_logger().info('Goal failed')
 
-        # Shutdown after receiving a result
-        rclpy.shutdown()
+        self.sim_counter += 1
 
-    def feedback_callback(self, feedback_msg):
-        feedback = feedback_msg.feedback
-        self.get_logger().info('Received feedback: {0}'.format(feedback.remaining_angle_travel))
+        sim_loop(self)
+
+def sim_loop(robot_handler):
+
+    if (robot_handler.sim_counter % 2) == 0:
+        robot_handler.send_rotate_angle_goal(1.57)
+    else:
+        robot_handler.send_drive_distance_goal(3.0)
 
 def main(args=None):
     rclpy.init(args=args)
@@ -71,7 +89,8 @@ def main(args=None):
     robot1_handler = robotHandler('robot1')
     robot2_handler = robotHandler('robot2')
 
-    robot2_handler.send_rotate_angle_goal(1.57)
+    sim_loop(robot1_handler)
+    sim_loop(robot2_handler)
 
     rclpy.spin(robot2_handler)
 
