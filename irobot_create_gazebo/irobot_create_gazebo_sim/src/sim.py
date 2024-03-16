@@ -36,9 +36,7 @@ class robotHandler(Node):
         self.sim_loop()
 
     def sim_loop(self):
-        if self.sim_counter == 0:
-            self.send_undock_goal()
-        elif (self.sim_counter % 2) == 1:
+        if (self.sim_counter % 2) == 0:
             self.send_rotate_angle_goal(1.57)
         elif self.sim_counter == -1:
             self.get_logger().info('Simulation Finished!')
@@ -51,11 +49,11 @@ class robotHandler(Node):
         self.get_logger().info('Waiting for action server...')
         self._undock_action_client.wait_for_server()
 
-        goal_msg = RotateAngle.Goal()
+        goal_msg = Undock.Goal()
 
         self.get_logger().info('Sending undock request...')
 
-        self._send_goal_future = self._rotate_angle_action_client.send_goal_async(goal_msg)
+        self._send_goal_future = self._undock_action_client.send_goal_async(goal_msg)
 
         self._send_goal_future.add_done_callback(self.goal_response_callback)
 
