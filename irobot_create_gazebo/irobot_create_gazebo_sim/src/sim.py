@@ -26,25 +26,27 @@ class robotHandler(Node):
 
         self.sim_counter = 0
 
-        self.starting_time = Time()
+        timer_period = 60  # seconds
+        self.timer = self.create_timer(timer_period, self.timer_callback)
 
         self.get_logger().info(f'Action clients setup', once=True)
 
+    def timer_callback(self):
+
+        self.sim_counter = -1
+
+        self.sim_loop()
+
     def sim_loop(self):
-
-        sim_duration = (Time() - self.starting_time)
-
-        if sim_duration < Duration(seconds=60):
-            if self.sim_counter == 0:
-                self.send_undock_goal()
-            elif (self.sim_counter % 2) == 1:
-                self.send_rotate_angle_goal(1.57)
-            else:
-                self.send_drive_distance_goal(2.0)
-        else:
+        if self.sim_counter == 0:
+            self.send_undock_goal()
+        elif (self.sim_counter % 2) == 1:
+            self.send_rotate_angle_goal(1.57)
+        elif self.sim_counter == -1:
             self.get_logger().info('Simulation Finished!')
             rclpy.shutdown()
-
+        else:
+            self.send_drive_distance_goal(2.0)
 
     def send_undock_goal(self):
 
@@ -66,7 +68,7 @@ class robotHandler(Node):
 
         goal_msg = RotateAngle.Goal()
         goal_msg.angle = angle
-        goal_msg.max_rotation_speed = 1.0
+        goal_msg.max_rotation_speed = 1.9
 
         self.get_logger().info('Sending roatate angle request...')
 
@@ -81,7 +83,7 @@ class robotHandler(Node):
 
         goal_msg = DriveDistance.Goal()
         goal_msg.distance = distance
-        goal_msg.max_translation_speed = 0.5
+        goal_msg.max_translation_speed = 1.0
 
         self.get_logger().info('Sending drive distance request...')
 
@@ -141,6 +143,7 @@ def main(args=None):
 
     robot1_handler = robotHandler('robot1')
     robot1_handler.sim_loop()
+
     rclpy.spin(robot2_handler)
     rclpy.spin(robot1_handler)
     
