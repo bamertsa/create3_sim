@@ -32,9 +32,7 @@ class robotHandler(Node):
         self.get_logger().info(f'Action clients setup', once=True)
 
     def timer_callback(self):
-
         self.sim_counter = -1
-
         self.sim_loop()
 
     def sim_loop(self):
@@ -68,7 +66,7 @@ class robotHandler(Node):
 
         goal_msg = RotateAngle.Goal()
         goal_msg.angle = angle
-        goal_msg.max_rotation_speed = 1.9
+        goal_msg.max_rotation_speed = 1.0
 
         self.get_logger().info('Sending roatate angle request...')
 
@@ -83,7 +81,7 @@ class robotHandler(Node):
 
         goal_msg = DriveDistance.Goal()
         goal_msg.distance = distance
-        goal_msg.max_translation_speed = 1.0
+        goal_msg.max_translation_speed = 0.5
 
         self.get_logger().info('Sending drive distance request...')
 
